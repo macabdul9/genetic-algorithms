@@ -29,16 +29,20 @@ def _mutate(parents, fitness_function):
     scores = fitness_function(parents)
     idx = scores > 0 ## positive values only
     scores = scores[idx]
+
     parents = np.array(parents)[idx]
     ## resample parents with probabilities proportional to fitness
     ## then, add some noise for 'random' mutation
     children = np.random.choice(parents, size=n, p = scores / scores.sum()) 
+
     children = children + np.random.uniform(-0.51,0.51, size=n)  # add some noise to mutate
+
     return children.tolist() ## convert array to list
     
     
 
 def find_best_fit(parents, fitness_function, mutate_fn, popsize = 100, max_iter = 100):
+	
     History = []
     ## initial parents; gen zero
     best_parent, best_fitness = _get_fittest_parent(parents, fitness)
